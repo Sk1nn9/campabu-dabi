@@ -698,10 +698,10 @@ body.menu-is-open {
 .timesheet__link {
     position: absolute;
     opacity: 0.4;
-    bottom: 3.7%;
+    bottom: 3.4%;
     right: 10%;
     width: 80%;
-    height: 3.2%;
+    height: 2.5%;
 }
 
 .levels {
@@ -755,14 +755,14 @@ body.menu-is-open {
 
 .coach__text p {
     font-family: inter;
-    font-size: clamp(12px, 1vw, 17px);
+    font-size: clamp(14px, 1.5vw, 20px);
     font-weight: 300;
     color: var(--dark-green);
 }
 
 .coach__text h2 {
     font-family: playfair display;
-    font-size: clamp(19px, 2vw, 26px);
+    font-size: clamp(22px, 2.5vw, 28px);
     font-weight: 400;
     color: var(--dark-green);
 }
@@ -920,7 +920,7 @@ body.menu-is-open {
     font-family: "Playfair Display";
     font-size: clamp(18px, 4vw, 24px);
     font-weight: 400;
-    padding: 4px 10px;
+    padding: 2px 4px;
     color: var(--dark-green);
     background-color: var(--white);
     white-space: nowrap;
@@ -934,6 +934,27 @@ body.menu-is-open {
 .price__card-btn-wrap {
     position: relative;
     display: inline-block;
+}
+
+/* Center price lines and add spacing between paragraph and link */
+.price__card-btn-wrap p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* space between paragraph text and the link */
+    margin: 10px 0; /* vertical spacing between two lines */
+    text-align: center;
+    font-family: Inter, sans-serif; /* paragraph font */
+    text-transform: uppercase; /* make paragraph text uppercase */
+}
+
+.price__card-btn-wrap p .price__card-btn {
+    margin-left: 10px; /* ensure there is at least 10px before the link */
+}
+
+/* Ensure price link keeps its original casing */
+.price__card-btn {
+    text-transform: none;
 }
 
 .price__tooltip {
@@ -1014,7 +1035,7 @@ body.menu-is-open {
     width: 100%;
     /* min-height: 640px; */
     height: 40vh;
-    background-image:linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.2)), url(img/reserv-bg.webp);
+    background-image:linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.2)), url(img/hero-bg.webp);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -1575,10 +1596,10 @@ body.form-is-open {
     
     .timesheet__link {
     position: absolute;
-    bottom: 9.4%;
-    right: 26.5%;
-    width: 21%;
-    height: 4.1%;
+    bottom: 9.8%;
+    right: 12.3%;
+    width: 20.4%;
+    height: 3.3%;
 }
     .levels__track {
         display: grid;
@@ -1616,11 +1637,20 @@ body.form-is-open {
     }
 
     .coach__container {
-        padding: 0 0 40px 60px;
+        /* keep vertical spacing, set horizontal gaps to 200px on desktop */
+        padding-inline: clamp(20px, 9vw, 200px);
+    }
+
+    .coach__track {
+        justify-content: center; /* center frames horizontally inside the track */
+        width: 100%;
     }
 
     .coach__frame {
-        flex: 0 0 70%;
+        flex: 1 1 auto; /* grow to fill available width inside the track */
+        width: 100%;
+        max-width: none;
+        margin: 0; /* fill the padded container fully */
         border-radius: 20px;
     }
 
@@ -1648,23 +1678,36 @@ body.form-is-open {
         justify-content: space-between;
     }
 
-    /* Десктоп: заголовок и кнопка на одной строке, текст под ними */
     .price__card-top {
-        flex-direction: row;
+        flex-direction: column;
         align-items: flex-start;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 12px;
+        width: 100%;
+    }
+
+    .price__card {
+        align-items: flex-start; 
     }
 
     .price__card-title {
-        font-size: clamp(18px, 1.8vw, 26px);
+        font-size: clamp(27px, 1.8vw, 39px);
         text-align: left;
         flex: 1;
     }
 
     .price__card-btn {
-        font-size: clamp(13px, 1vw, 16px);
+        font-size: clamp(21px, 1.5vw, 27px);
         flex-shrink: 0;
+        margin-left: 0; 
+        align-self: flex-start;
+    }
+
+    .price__card-btn-wrap p {
+        justify-content: flex-start;
+        text-align: left;
+        margin: 8px 0;
+        gap: 10px;
     }
 
     .price__card-btn-wrap:hover .price__tooltip {
@@ -1709,7 +1752,7 @@ body.form-is-open {
     }
 
     .price__card-title {
-        font-size: clamp(18px, 1.2vw, 26px);
+        font-size: clamp(27px, 1.8vw, 39px);
     }
 
     .price__card-list, .price__card-comm {
@@ -1721,7 +1764,7 @@ body.form-is-open {
     }
 
     .price__card-btn {
-        font-size: clamp(14px, 0.8vw, 18px);
+        font-size: clamp(21px, 1.2vw, 27px);
     }
 
     
