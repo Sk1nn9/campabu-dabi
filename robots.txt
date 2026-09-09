@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://campkakheti.tennis-go-school.ru/sitemap.xml
+Sitemap: https://camp-abudabi.tennis-go-school.ru//sitemap.xml

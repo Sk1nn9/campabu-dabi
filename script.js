@@ -268,35 +268,107 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-document.getElementById("form").addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const form = e.target;
+document.getElementById("form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const submitBtn = form.querySelector(".modal__submit");
+  const originalBtnHTML = submitBtn.innerHTML;
 
-    const formData = new URLSearchParams();
-    formData.append("name", document.getElementById("name").value);
-    formData.append("phone", document.getElementById("tel").value);
-    formData.append("telegram", document.getElementById("tg").value);
-    formData.append("level", document.getElementById("level").value);
-    formData.append("format", document.getElementById("format").value);
+  // 1) Состояние «отправляем»
+  submitBtn.classList.add("is-loading");
+  submitBtn.innerHTML = '<span class="spinner"></span><span>Отправляем...</span>';
+  submitBtn.disabled = true;
 
-    try {
-        const response = await fetch(form.action, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: formData
-        });
+  const formData = new URLSearchParams();
+  formData.append("name", document.getElementById("name").value);
+  formData.append("phone", document.getElementById("tel").value);
+  formData.append("telegram", document.getElementById("tg").value);
+  formData.append("level", document.getElementById("level").value);
+  formData.append("format", document.getElementById("format").value);
 
-        if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
-        const result = await response.json();
-        console.log("Ответ сервера:", result);
-        alert("Спасибо! Заявка отправлена.");
-    } catch (error) {
-        console.error("Ошибка отправки:", error);
-        alert("Произошла ошибка. Попробуйте позже или свяжитесь по телефону.");
-    }
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData,
+    });
+    if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
+    const result = await response.json();
+    console.log("Ответ сервера:", result);
+
+    showFormStatus("success", {
+      title: "Заявка отправлена!",
+      text: "Спасибо! Мы свяжемся с вами в ближайшее время, чтобы обсудить детали бронирования кэмпа в Абу-Даби.",
+    });
+    form.reset();
+  } catch (error) {
+    console.error("Ошибка отправки:", error);
+    showFormStatus("error", {
+      title: "Не удалось отправить",
+      text: "Пожалуйста, попробуйте ещё раз или свяжитесь с нами по телефону <a href='tel:+79162990899' style='color:#fff;text-decoration:underline;'>+7 916 299 08 99</a>.",
+    });
+  } finally {
+    submitBtn.classList.remove("is-loading");
+    submitBtn.innerHTML = originalBtnHTML;
+    submitBtn.disabled = false;
+  }
 });
+
+/* ===== Красивый статус-экран внутри модалки ===== */
+function showFormStatus(type, { title, text }) {
+  const modal = document.getElementById("formModal");
+  if (!modal) return;
+
+  // Удаляем старый статус, если есть
+  const oldStatus = modal.querySelector(".modal__status");
+  if (oldStatus) oldStatus.remove();
+
+  const isSuccess = type === "success";
+  const iconSVG = isSuccess
+    ? `<svg viewBox="0 0 52 52">
+         <circle cx="26" cy="26" r="24" stroke-opacity="0.35"/>
+         <path class="check-path" d="M14 27 l8 8 l16 -18"/>
+       </svg>`
+    : `<svg viewBox="0 0 52 52">
+         <circle cx="26" cy="26" r="24" stroke-opacity="0.35"/>
+         <line class="cross-line" x1="18" y1="18" x2="34" y2="34"/>
+         <line class="cross-line" x1="34" y1="18" x2="18" y2="34"/>
+       </svg>`;
+
+  const status = document.createElement("div");
+  status.className = `modal__status modal__status--${type}`;
+  status.innerHTML = `
+    <div class="modal__status-icon">${iconSVG}</div>
+    <h3 class="modal__status-title">${title}</h3>
+    <p class="modal__status-text">${text}</p>
+    <button type="button" class="modal__status-btn">
+      ${isSuccess ? "Отлично" : "Закрыть"}
+    </button>
+  `;
+  modal.appendChild(status);
+
+  // Плавное появление
+  requestAnimationFrame(() => status.classList.add("is-visible"));
+
+  // Закрытие по кнопке
+  const closeBtn = status.querySelector(".modal__status-btn");
+  const closeStatus = () => {
+    status.classList.remove("is-visible");
+    setTimeout(() => {
+      status.remove();
+      // Закрываем саму модалку после успеха
+      if (isSuccess && typeof closeForm === "function") closeForm();
+    }, 350);
+  };
+  closeBtn.addEventListener("click", closeStatus);
+
+  // Автозакрытие успеха через 6 секунд
+  if (isSuccess) {
+    setTimeout(() => {
+      if (status.isConnected) closeStatus();
+    }, 6000);
+  }
+}
 
 const travelTrack = document.querySelector(".travel__track");
 const travelPrev = document.querySelector(".travel__edge--prev");
