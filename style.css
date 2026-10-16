@@ -1025,6 +1025,13 @@ body.menu-is-open {
     text-transform: uppercase;
 }
 
+.pack {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: block;
+}
+
 
 .reserv {
     display: flex;
@@ -1734,8 +1741,8 @@ body.form-is-open {
 
     .prev__right-block {
         display: block;
-        width: auto;
-        height: min(480px, 90vh);
+        height: 100%;
+        width: max(35vw, 480px);
         padding-left: 40px;
     }
 

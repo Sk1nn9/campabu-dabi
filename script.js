@@ -21,7 +21,7 @@ const handleMenuScroll = () => {
 window.addEventListener("scroll", handleMenuScroll, { passive: true });
 window.addEventListener("resize", handleMenuScroll);
 
-const targetDate = new Date("2026-11-21T00:00:00").getTime();
+const targetDate = new Date("2027-02-20T00:00:00").getTime();
 
 const countdown = setInterval(() => {
   const now = new Date().getTime();
