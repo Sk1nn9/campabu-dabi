@@ -813,13 +813,22 @@ body.menu-is-open {
 
 .price__title {
     font-family: "Playfair Display";
-    font-size: clamp(19px, 3vw, 28px);
+    font-size: clamp(22px, 3vw, 28px);
     font-weight: 400;
     text-transform: uppercase;
     color: var(--dark-green);
     text-align: center;
 }
 
+.price__subtitle {
+    font-family: Inter;
+    font-size: clamp(14px, 2vw, 13px);
+    font-weight: 300;
+    text-transform: uppercase;
+    color: var(--dark-green);
+    text-align: center;
+    margin-bottom: 8px;
+}
 .price__txt {
     font-family: Inter;
     font-size: clamp(11px, 2vw, 13px);
